@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Word Scramble </title>
+</head>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Arial', sans-serif;
+    }
+
+    body {
+        font-family: 'Segoe UI', sans-serif; 
+        background: linear-gradient(135deg, #1e1e2f, #2c2c3e); 
+        display: flex; 
+        justify-content: center; 
+        align-items: center; 
+        height: 100vh; 
+        color: white; 
+    }
+
+    .container {
+        text-align: center; 
+        background-color: #2e2e3e; 
+        padding: 30px; 
+        border-radius: 20px; 
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5); 
+        width: 400px;
+    }
+    h1 {
+        color: #fffefe;
+        margin-bottom: 20px;
+    }
+    .game-box {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+    #word {
+        font-size: 24px;
+        font-weight: bold;
+        letter-spacing: 5px;
+        color: #c5c1c1;
+    }
+    input {
+        padding: 10px;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+        font-size: 16px;
+    }
+    button {
+        padding: 10px;
+        background-color: #4caf50;
+        border: none;
+        color: white;
+        border-radius: 8px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background 0.3s ease;
+    }
+    button:hover {
+        background-color: #45a049;
+    }
+    #message {
+        font-style: italic;
+        color: #f0e8e8;
+    }
+    #scope{
+        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        font-size: 50px;
+    }
+</style>
+<body>
+  <div class="container">
+    <h1 id="scope">Scope : 0</h1>
+    <h1>Word Scramble</h1>
+    <div class="game-box">
+      <p id="word">rcedo</p>
+      <input type="text" placeholder="Type the correct word..." id="input"/>
+      <button id="test">Check</button>
+      <p id="message">Guess the correct word!</p>
+    </div>
+  </div>
+  <audio id="sound-draw" src="frustated-scream-female-230561.mp3"></audio>
+  <script>
+        let input =document.getElementById('input')
+        //هادو هما الكلمات اللي غادي ندوزهم فاللعبة
+        const calimat = [
+            "code", "html", "style", "button", "script", "input", "color", "random",
+            "array", "object", "return", "client", "document", "textContent", "innerHTML",
+            "string", "setTimeout", "export", "import", "alert", "window", "prompt",
+            "forEach", "addEventListener", "cookie", "backgroundColor", "module"
+        ]
+          // هنا خدينا العناصر من الصفحة (input, button, message...)
+        const button = document.getElementById("test")
+        const message = document.getElementById("message")
+        const p = document.getElementById("word")
+        const scope = document.getElementById("scope")
+        let soundDraw = document.getElementById("sound-draw")
+        let horofCalma =""
+        let K =0 // هادي باش نعرفو الكلمة لي كنخدمو بيها دابا
+        let scopeC=0 // هادي فيها النقاط ديال اللاعب
+        function kharba9lhoraf(word) {
+            const array = word.split('')
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]]
+            }
+            return array.join('-') // كنرجع الكلمة المخلوطة mfar9a bi -
+        }
+        // هادي كتعرض الكلمة المخلوطة fi html
+        function kharba9() {
+            const shuffled = kharba9lhoraf(calimat[K])
+            p.textContent = shuffled; // كنكتبها فـ <p>
+        }
+        function teste() {
+            if (input.value===calimat[K]) { // إذا كان صحيح
+                scopeC++ // كنزادو نقطة
+                message.textContent = "✅ Correct!"// كنوريه أنه جاوب صحيح
+                input.value="" // كنفرغو الـ input
+                scope.innerHTML=`Scope : ${scopeC}`
+            }
+            else{
+                input.value=""
+                message.textContent = "❌ Wrong! Try again."// إذا كان خاطئ نعطيوه ميساج
+            }
+      
+            K++ // نزيدو الكلمة الموالية
+            setTimeout(kharba9, 100); 
+        }
+         // هنا كنربطو الزر بالفنكسيون ديال التحقق
+         button.addEventListener("click" , teste)
+         kharba9()
+         if (scopeC==28) {
+            alert("🎉 Game Over!")
+         }
+  </script>
+</body>
+</html>
